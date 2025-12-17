@@ -78,8 +78,8 @@ class HyperliquidFetcher(BaseFetcher):
                                 exchange="Hyperliquid",
                                 symbol=asset["name"],
                                 funding_rate=funding,
-                                next_funding_time=None,  # Hyperliquid has continuous funding
-                                interval_hours=1,
+                                next_funding_time=None,
+                                interval_hours=8,  # API returns 8-hour funding rate
                                 open_interest=oi_usd,
                                 volume_24h=volume_24h
                             ))
