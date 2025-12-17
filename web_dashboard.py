@@ -99,13 +99,16 @@ def main():
                 st.info("No data")
                 continue
 
-            # Sort based on user selection
+            # Sort based on user selection - use APR (annualized) for proper comparison across exchanges
+            def get_apr(r):
+                return r.funding_rate * (365 * 24 / r.interval_hours)
+
             if sort_option == "Highest Rate (Short Opps)":
-                sorted_rates = sorted(rates, key=lambda x: x.funding_rate, reverse=True)
+                sorted_rates = sorted(rates, key=get_apr, reverse=True)
             elif sort_option == "Lowest Rate (Long Opps)":
-                sorted_rates = sorted(rates, key=lambda x: x.funding_rate)
+                sorted_rates = sorted(rates, key=get_apr)
             else:  # Absolute Value
-                sorted_rates = sorted(rates, key=lambda x: abs(x.funding_rate), reverse=True)
+                sorted_rates = sorted(rates, key=lambda x: abs(get_apr(x)), reverse=True)
 
             # Create dataframe
             df = pd.DataFrame([
