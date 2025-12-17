@@ -110,14 +110,14 @@ def main():
             else:  # Absolute Value
                 sorted_rates = sorted(rates, key=lambda x: abs(get_apr(x)), reverse=True)
 
-            # Create dataframe with numeric values for proper sorting
+            # Create dataframe with numeric values for proper sorting (OI/Vol in millions)
             df = pd.DataFrame([
                 {
                     "Symbol": r.symbol,
                     "Rate": r.funding_rate,
                     "APR": r.funding_rate * (365 * 24 / r.interval_hours),
-                    "OI": r.open_interest if r.open_interest else 0,
-                    "Vol 24h": r.volume_24h if r.volume_24h else 0
+                    "OI ($M)": (r.open_interest / 1_000_000) if r.open_interest else 0,
+                    "Vol 24h ($M)": (r.volume_24h / 1_000_000) if r.volume_24h else 0
                 }
                 for r in sorted_rates
             ])
@@ -137,13 +137,13 @@ def main():
                         "APR",
                         format="%.1f%%",
                     ),
-                    "OI": st.column_config.NumberColumn(
-                        "OI",
-                        format="$%.0f",
+                    "OI ($M)": st.column_config.NumberColumn(
+                        "OI ($M)",
+                        format="%.2f",
                     ),
-                    "Vol 24h": st.column_config.NumberColumn(
-                        "Vol 24h",
-                        format="$%.0f",
+                    "Vol 24h ($M)": st.column_config.NumberColumn(
+                        "Vol 24h ($M)",
+                        format="%.2f",
                     ),
                 }
             )
