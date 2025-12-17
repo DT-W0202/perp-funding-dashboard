@@ -123,7 +123,7 @@ class LighterFetcher(BaseFetcher):
                                 symbol=symbol,
                                 funding_rate=float(funding) * 100,
                                 next_funding_time=None,
-                                interval_hours=1  # Lighter calculates every hour
+                                interval_hours=8  # Lighter uses 8-hour funding rate
                             ))
         except Exception as e:
             print(f"Error fetching Lighter: {e}")
