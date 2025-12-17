@@ -110,21 +110,43 @@ def main():
             else:  # Absolute Value
                 sorted_rates = sorted(rates, key=lambda x: abs(get_apr(x)), reverse=True)
 
-            # Create dataframe
+            # Create dataframe with numeric values for proper sorting
             df = pd.DataFrame([
                 {
                     "Symbol": r.symbol,
-                    "Rate": f"{r.funding_rate:+.4f}%",
-                    "APR": f"{r.funding_rate * (365 * 24 / r.interval_hours):+.1f}%",
-                    "OI": format_usd(r.open_interest),
-                    "Vol 24h": format_usd(r.volume_24h)
+                    "Rate": r.funding_rate,
+                    "APR": r.funding_rate * (365 * 24 / r.interval_hours),
+                    "OI": r.open_interest if r.open_interest else 0,
+                    "Vol 24h": r.volume_24h if r.volume_24h else 0
                 }
                 for r in sorted_rates
             ])
 
-            # Style and display with scrollable height
-            styled_df = df.style.map(color_funding, subset=['Rate', 'APR'])
-            st.dataframe(styled_df, hide_index=True, use_container_width=True, height=400)
+            # Format columns for display while keeping numeric values for sorting
+            st.dataframe(
+                df,
+                hide_index=True,
+                use_container_width=True,
+                height=400,
+                column_config={
+                    "Rate": st.column_config.NumberColumn(
+                        "Rate",
+                        format="%.4f%%",
+                    ),
+                    "APR": st.column_config.NumberColumn(
+                        "APR",
+                        format="%.1f%%",
+                    ),
+                    "OI": st.column_config.NumberColumn(
+                        "OI",
+                        format="$%.0f",
+                    ),
+                    "Vol 24h": st.column_config.NumberColumn(
+                        "Vol 24h",
+                        format="$%.0f",
+                    ),
+                }
+            )
 
     # Cross-exchange comparison
     st.subheader("📊 Cross-Exchange Comparison (Sorted by Spread)")
