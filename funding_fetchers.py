@@ -179,7 +179,7 @@ class AsterFetcher(BaseFetcher):
                     symbol=clean_symbol,
                     funding_rate=funding_rate,
                     next_funding_time=None,
-                    interval_hours=8,  # Aster uses 8-hour funding
+                    interval_hours=4,  # Aster uses 4-hour funding
                     open_interest=None,  # Skip OI to avoid rate limits
                     volume_24h=volume_24h
                 ))
