@@ -4,9 +4,9 @@ Perpetual Funding Rate Dashboard
 实时聚合多个永续合约交易所的资费率数据。
 
 支持的交易所:
-- Hyperliquid - 1小时资费周期
-- Lighter - 1小时资费周期
-- Aster - 8小时资费周期
+- Hyperliquid - 8小时资费周期
+- Lighter - 8小时资费周期
+- Aster - 4小时资费周期
 
 使用方法:
     # Web 看板
